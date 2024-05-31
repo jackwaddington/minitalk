@@ -6,7 +6,7 @@
 /*   By: jwadding <jwadding@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 00:47:54 by jwadding          #+#    #+#             */
-/*   Updated: 2024/05/22 00:34:30 by jwadding         ###   ########.fr       */
+/*   Updated: 2024/05/28 18:20:49 by jwadding         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,28 +47,35 @@ char	*add_to_string(char const *s1, char const letter)
 	return (tab);
 }
 
-void	signal_handler(int signum)
+void	line_saver(char **string)
+{
+	ft_printf("%s\n", *string);
+	free (*string);
+	*string = NULL;
+}
+
+void	signal_handler(int sig, siginfo_t *info, void *context)
 {
 	static int	counter = 0;
 	static int	result = 0;
 	static int	len = 0;
-	static char	*final;
+	static char	*string;
+	pid_t		sender_id;
 
-	if (!final)
-		final = ft_strdup("");
-	if (signum == SIGUSR1)
-		result = result + 0;
-	else if (signum == SIGUSR2)
+	(void)context;
+	sender_id = info->si_pid;
+	if (!string)
+		string = ft_strdup("");
+	if (sig == SIGUSR2)
 		result = result + (1 * ft_recursive_power(7 - counter));
 	counter++;
 	if (counter == 8)
 	{
-		final = add_to_string(final, result);
+		string = add_to_string(string, result);
 		if (result == '\0')
 		{
-			ft_printf("%s\n", final);
-			free (final);
-			final = NULL;
+			line_saver(&string);
+			kill(sender_id, SIGUSR1);
 		}
 		counter = 0;
 		result = 0;
@@ -81,8 +88,8 @@ int	main(void)
 	struct sigaction	signal_received;
 
 	ft_printf("Server is online with PID: %d\n", getpid());
-	signal_received.sa_handler = signal_handler;
-	signal_received.sa_flags = 0;
+	signal_received.sa_sigaction = signal_handler;
+	signal_received.sa_flags = SA_SIGINFO;
 	sigaction(SIGUSR1, &signal_received, NULL);
 	sigaction(SIGUSR2, &signal_received, NULL);
 	while (1)
