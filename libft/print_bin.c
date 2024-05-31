@@ -6,22 +6,22 @@
 /*   By: jwadding <jwadding@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 14:58:10 by jwadding          #+#    #+#             */
-/*   Updated: 2024/05/31 14:58:23 by jwadding         ###   ########.fr       */
+/*   Updated: 2024/05/31 23:27:36 by jwadding         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void print_bin(unsigned char octet)
+void	print_bin(unsigned char octet)
 {
-	int div;
-	int oct;
+	int	div;
+	int	oct;
 
 	div = 128;
 	oct = octet;
- 	while(div != 0)
+	while (div != 0)
 	{
-		if(div <= oct)
+		if (div <= oct)
 		{
 			write(1, "1", 1);
 			oct = oct % div;
@@ -30,7 +30,7 @@ void print_bin(unsigned char octet)
 		{
 			write(1, "0", 1);
 		}
-	div = div / 2;
+		div = div / 2;
 	}
 	write(1, "\n", 1);
 }

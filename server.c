@@ -6,30 +6,11 @@
 /*   By: jwadding <jwadding@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 00:47:54 by jwadding          #+#    #+#             */
-/*   Updated: 2024/05/31 20:25:48 by jwadding         ###   ########.fr       */
+/*   Updated: 2024/05/31 23:35:55 by jwadding         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
-
-// int	ft_recursive_power(int power)
-// {
-// 	int	res;
-
-
-// 	ft_printf("power = %d\n", power);
-
-
-// 	if (power == 0)
-// 		return (1);
-// 	else if (power < 0)
-// 		return (0);
-// 	else
-// 	{
-// 		res = 2 * ft_recursive_power(power - 1);
-// 		return (res);
-// 	}
-// }
 
 char	*add_to_string(char const *s1, char const letter)
 {
@@ -69,16 +50,10 @@ void	signal_handler(int sig, siginfo_t *info, void *context)
 	if (!string)
 		string = ft_strdup("");
 	if (sig == SIGUSR2)
-	{
-		// char_val = char_val + (ft_recursive_power(7 - bit_pos));
-		// char_val = char_val + 1;
 		char_val = ((char_val << 1) | 1);
-		// print_bin(char_val);
-	}
 	else if (sig == SIGUSR1)
 		char_val = (char_val << 1);
 	bit_pos++;
-	//  ft_printf("bit_pos = %d\n", bit_pos);
 	if (bit_pos == 8)
 	{
 		string = add_to_string(string, char_val);

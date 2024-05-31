@@ -6,7 +6,7 @@
 /*   By: jwadding <jwadding@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 00:46:56 by jwadding          #+#    #+#             */
-/*   Updated: 2024/05/31 20:09:11 by jwadding         ###   ########.fr       */
+/*   Updated: 2024/05/31 23:42:03 by jwadding         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@ void	error_and_exit(int err)
 	if (err == 3)
 		ft_printf("[+] Error: \033[31mIncorrect PID\n\033[0m \n");
 	if (err == 4)
-		ft_printf("[+] Error: \033[31mMessage confirmed was not recieved\n\033[0m \n");
+		ft_printf("[+] Error: \033[31mMessage was not recieved\n\033[0m \n");
 	if (err == 5)
-		ft_printf("[+] Error: \033[31mUse format: ./client PID_SERVER \"STRING\"\n\033[0m \n");
+		ft_printf("[+] Error: \033[31mUse format: ./client PID_SERVER \
+			   \"STRING\"\n\033[0m \n");
 	if (err == 6)
 		ft_printf("[+] Error: \033[31mKill fail\n\033[0m \n");
 	exit (0);
@@ -41,18 +42,9 @@ void	send_signals(int pid, char *string)
 		while (++bit_pos < 8)
 		{
 			if (((unsigned char)(string[string_pos] >> (7 - bit_pos)) & 1) == 0)
-			{
-				// print_bin(string[string_pos]);
-				// print_bin(string[string_pos] >> (7 - bit_pos));
-				if(kill(pid, SIGUSR1))
-					error_and_exit(6);
-			}
+				kill(pid, SIGUSR1);
 			else
-			{
-				// print_bin(string[string_pos] >> (7 - bit_pos));
-				if(kill(pid, SIGUSR2))
-					error_and_exit(6);
-			}
+				kill(pid, SIGUSR2);
 			usleep(200);
 		}
 		string_pos++;
@@ -61,7 +53,7 @@ void	send_signals(int pid, char *string)
 	while (bit_pos++ < 8)
 	{
 		kill(pid, SIGUSR1);
-		usleep(50);
+		usleep(200);
 	}
 }
 
@@ -71,7 +63,7 @@ void	signal_handler(int sig, siginfo_t *info, void *context)
 	(void)info;
 	if (sig == SIGUSR1)
 	{
-		ft_printf("Kill confirmed\n");
+		ft_printf("Transmition recieved\n");
 		exit(EXIT_SUCCESS);
 	}
 }
@@ -101,6 +93,5 @@ int	main(int argc, char **argv)
 		error_and_exit(5);
 	sleep(2);
 	error_and_exit(4);
-	
 	exit(EXIT_FAILURE);
 }
