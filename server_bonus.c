@@ -6,7 +6,7 @@
 /*   By: jwadding <jwadding@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 00:47:54 by jwadding          #+#    #+#             */
-/*   Updated: 2024/06/01 00:00:04 by jwadding         ###   ########.fr       */
+/*   Updated: 2024/05/31 23:35:55 by jwadding         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,14 @@ void	print_and_free(char **string)
 	*string = NULL;
 }
 
-//void	signal_handler(int sig, siginfo_t *info, void *context)
-void	signal_handler(int sig)
+void	signal_handler(int sig, siginfo_t *info, void *context)
 {
 	static int	bit_pos = 0;
 	static int	char_val = 0;
 	static int	len = 0;
 	static char	*string;
 
-//	(void)context;
+	(void)context;
 	if (!string)
 		string = ft_strdup("");
 	if (sig == SIGUSR2)
@@ -59,7 +58,10 @@ void	signal_handler(int sig)
 	{
 		string = add_to_string(string, char_val);
 		if (char_val == '\0')
+		{
 			print_and_free(&string);
+			kill(info->si_pid, SIGUSR1);
+		}
 		bit_pos = 0;
 		char_val = 0;
 		len += 1;
@@ -71,8 +73,8 @@ int	main(void)
 	struct sigaction	sa;
 
 	ft_printf("Server PID: %d\n", getpid());
-	sa.sa_handler = signal_handler;
-	sa.sa_flags = 0;
+	sa.sa_sigaction = signal_handler;
+	sa.sa_flags = SA_SIGINFO;
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
 	while (1)

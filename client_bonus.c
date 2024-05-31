@@ -6,7 +6,7 @@
 /*   By: jwadding <jwadding@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 00:46:56 by jwadding          #+#    #+#             */
-/*   Updated: 2024/06/01 00:03:10 by jwadding         ###   ########.fr       */
+/*   Updated: 2024/05/31 23:42:03 by jwadding         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	error_and_exit(int err)
 	if (err == 4)
 		ft_printf("[+] Error: \033[31mMessage was not recieved\n\033[0m \n");
 	if (err == 5)
-		ft_printf("[+] Error: \033[31mUse format:\n\
-			   	./client <PID_SERVER> <\"STRING\">\n\033[0m \n");
+		ft_printf("[+] Error: \033[31mUse format: ./client PID_SERVER \
+			   \"STRING\"\n\033[0m \n");
 	if (err == 6)
 		ft_printf("[+] Error: \033[31mKill fail\n\033[0m \n");
 	exit (0);
@@ -56,7 +56,7 @@ void	send_signals(int pid, char *string)
 		usleep(200);
 	}
 }
-/*
+
 void	signal_handler(int sig, siginfo_t *info, void *context)
 {
 	(void)context;
@@ -67,17 +67,16 @@ void	signal_handler(int sig, siginfo_t *info, void *context)
 		exit(EXIT_SUCCESS);
 	}
 }
-*/
 
 int	main(int argc, char **argv)
 {
 	char				*string;
 	int					server_id;
-//	struct sigaction	signal_received;
+	struct sigaction	signal_received;
 
-//	signal_received.sa_sigaction = signal_handler;
-//	signal_received.sa_flags = SA_SIGINFO;
-//	sigaction(SIGUSR1, &signal_received, NULL);
+	signal_received.sa_sigaction = signal_handler;
+	signal_received.sa_flags = SA_SIGINFO;
+	sigaction(SIGUSR1, &signal_received, NULL);
 	if (argc == 3)
 	{
 		server_id = ft_atoi(argv[1]);
@@ -92,7 +91,7 @@ int	main(int argc, char **argv)
 	}
 	else
 		error_and_exit(5);
-//	sleep(2);
-//	error_and_exit(4);
-	return(EXIT_SUCCESS);
+	sleep(2);
+	error_and_exit(4);
+	exit(EXIT_FAILURE);
 }
