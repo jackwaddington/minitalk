@@ -6,7 +6,7 @@
 /*   By: jwadding <jwadding@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 00:47:54 by jwadding          #+#    #+#             */
-/*   Updated: 2024/06/01 00:00:04 by jwadding         ###   ########.fr       */
+/*   Updated: 2024/06/01 01:08:32 by jwadding         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	print_and_free(char **string)
 	*string = NULL;
 }
 
-//void	signal_handler(int sig, siginfo_t *info, void *context)
 void	signal_handler(int sig)
 {
 	static int	bit_pos = 0;
@@ -47,7 +46,6 @@ void	signal_handler(int sig)
 	static int	len = 0;
 	static char	*string;
 
-//	(void)context;
 	if (!string)
 		string = ft_strdup("");
 	if (sig == SIGUSR2)

@@ -6,7 +6,7 @@
 /*   By: jwadding <jwadding@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 00:46:56 by jwadding          #+#    #+#             */
-/*   Updated: 2024/06/01 00:03:10 by jwadding         ###   ########.fr       */
+/*   Updated: 2024/06/01 01:07:31 by jwadding         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,28 +56,12 @@ void	send_signals(int pid, char *string)
 		usleep(200);
 	}
 }
-/*
-void	signal_handler(int sig, siginfo_t *info, void *context)
-{
-	(void)context;
-	(void)info;
-	if (sig == SIGUSR1)
-	{
-		ft_printf("Transmition recieved\n");
-		exit(EXIT_SUCCESS);
-	}
-}
-*/
 
 int	main(int argc, char **argv)
 {
 	char				*string;
 	int					server_id;
-//	struct sigaction	signal_received;
 
-//	signal_received.sa_sigaction = signal_handler;
-//	signal_received.sa_flags = SA_SIGINFO;
-//	sigaction(SIGUSR1, &signal_received, NULL);
 	if (argc == 3)
 	{
 		server_id = ft_atoi(argv[1]);
@@ -92,7 +76,5 @@ int	main(int argc, char **argv)
 	}
 	else
 		error_and_exit(5);
-//	sleep(2);
-//	error_and_exit(4);
-	return(EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }
