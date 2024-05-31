@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jwadding <jwadding@student.hive.fi>        +#+  +:+       +#+         #
+#    By: jwadding <jwadding@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 13:09:38 by jwadding          #+#    #+#              #
-#    Updated: 2024/05/17 14:50:03 by jwadding         ###   ########.fr        #
+#    Updated: 2024/05/31 14:52:48 by jwadding         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,8 @@ SRCS=ft_atoi.c\
 	 ft_strtrim.c\
 	 ft_substr.c\
 	 ft_toupper.c\
-	 ft_tolower.c
+	 ft_tolower.c\
+	 print_bin.c
 
 OBJS=$(SRCS:.c=.o) 
 

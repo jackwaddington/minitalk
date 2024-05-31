@@ -42,4 +42,4 @@ fclean:		clean
 
 re:			fclean all
 
-.PHONY:		libft printf
+.PHONY:		all server client clean fclean libft printf  re all 
