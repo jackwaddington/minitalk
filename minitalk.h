@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minitalk.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwadding <jwadding@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jwadding <jwadding@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 00:47:32 by jwadding          #+#    #+#             */
-/*   Updated: 2024/05/18 00:47:35 by jwadding         ###   ########.fr       */
+/*   Updated: 2024/06/01 12:43:14 by jwadding         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <signal.h>
-# include "libft.h"
+# include "libft/libft.h"
 # include "printf/include/ft_printf.h"
 
 #endif

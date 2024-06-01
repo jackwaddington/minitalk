@@ -1,78 +1,89 @@
-NAME	= minitalk
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: jwadding <jwadding@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/06/01 12:41:43 by jwadding          #+#    #+#              #
+#    Updated: 2024/06/01 12:58:05 by jwadding         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-SRCS	= client.c server.c
+CLIENT_NAME = client
 
-BONUS_SRCS = client_bonus.c server_bonus.c
+SERVER_NAME = server
 
-OBJS	:= $(SRCS:%.c=%.o)
+C_SOURCE = client.c
 
-BONUS_OBJS = $(BONUS_SRCS:%.c=%.o)
+S_SOURCE = server.c
+			
+C_OBJECT = $(C_SOURCE:.c=.o)
 
-CC		= cc
-RM		= -rm -f
+S_OBJECT = $(S_SOURCE:.c=.o)
 
-CFLAGS 	= -Wall -Wextra -Werror
+CLIENT_NAME_BONUS = client_bonus
 
-# Color codes
-RED = \033[0;31m
-GREEN = \033[0;32m
-YELLOW = \033[0;33m
-BLUE = \033[0;34m
-MAGENTA = \033[0;35m
-CYAN = \033[0;36m
-RESET = \033[0m
+SERVER_NAME_BONUS = server_bonus
 
-all:		${NAME}
+C_SOURCE_BONUS = client_bonus.c
 
-bonus:	client_bonus server_bonus
+S_SOURCE_BONUS = server_bonus.c
+			
+C_OBJECT_BONUS = $(C_SOURCE_BONUS:.c=.o)
 
-norm:
-	@echo "$(YELLOW)Running norm...$(RESET)"
-	norminette $(SOURCES) $(BONUS_SOURCES)
-	@echo "$(BLUE)norm successful$(RESET)"
+S_OBJECT_BONUS = $(S_SOURCE_BONUS:.c=.o)
 
-%.o:	%.c
-		${CC} ${CFLAGS} -Ilibft -Iprintf -c $? -o $@
+LIBFT = libft/libft.a
 
-${NAME}:	 server client
+PRINTF = printf/libftprintf.a
 
-server:		server.o
-		@make -C libft
-		@make -C printf
-		${CC} ${CFLAGS} $? -Llibft -lft -Lprintf -lftprintf -o server
+all: $(CLIENT_NAME) $(SERVER_NAME)
 
-client:		client.o
-		@make -C libft
-		@make -C printf
-		${CC} ${CFLAGS} $? -Llibft -lft -Lprintf -lftprintf -o client
+bonus: $(CLIENT_NAME_BONUS) $(SERVER_NAME_BONUS)
 
+%.o:%.c
+	@cc -Wall -Wextra -Werror -c $< -o $(<:.c=.o)
 
-server_bonus:		server_bonus.o
-		@make -C libft
-		@make -C printf
-		${CC} ${CFLAGS} $? -Llibft -lft -Lprintf -lftprintf -o server
+$(CLIENT_NAME): $(C_OBJECT)
+	@make -C libft
+	@make -C printf
+	@cc -Wall -Wextra -Werror $(C_OBJECT) $(LIBFT) $(PRINTF) -o $(CLIENT_NAME)
+	@echo client made
 
-client_bonus:		client_bonus.o
-		@make -C libft
-		@make -C printf
-		${CC} ${CFLAGS} $? -Llibft -lft -Lprintf -lftprintf -o client
+$(SERVER_NAME): $(S_OBJECT)
+	@make -C libft
+	@make -C printf
+	@cc -Wall -Wextra -Werror $(S_OBJECT) $(LIBFT) $(PRINTF) -o $(SERVER_NAME)
+	@echo server made
 
+$(CLIENT_NAME_BONUS): $(C_OBJECT_BONUS)
+	@make -C libft
+	@make -C printf
+	@cc -Wall -Wextra -Werror $(C_OBJECT_BONUS) $(LIBFT) $(PRINTF) -o $(CLIENT_NAME_BONUS)
+	@echo client_bonus made
 
-libft:
-		make -C ./libft
-
-printf:
-		make -C ./printf
-
+$(SERVER_NAME_BONUS): $(S_OBJECT_BONUS)
+	@make -C libft
+	@make -C printf
+	@cc -Wall -Wextra -Werror $(S_OBJECT_BONUS) $(LIBFT) $(PRINTF) -o $(SERVER_NAME_BONUS)
+	@echo server_bonus made
 clean:
-			make clean -C libft
-			make clean -C printf
-			${RM} ${OBJS}
+	rm -f $(C_OBJECT)
+	rm -f $(S_OBJECT)
+	rm -f $(C_OBJECT_BONUS)
+	rm -f $(S_OBJECT_BONUS)
+	@make clean -C libft
+	@make clean -C printf
 
-fclean:		clean
-			${RM} server client $(OBJS)
-			${RM} client_bonus server_bonus $(BONUS_OBJS)
+fclean: clean
+	@rm -f $(CLIENT_NAME)
+	@rm -f $(SERVER_NAME)
+	@rm -f $(CLIENT_NAME_BONUS)
+	@rm -f $(SERVER_NAME_BONUS)
+	@rm -f libft/libft.a
+	@rm -f printf/libftprintf.a
 
-re:			fclean all
+re: fclean all
 
-.PHONY:		all server client clean fclean libft printf re bonus
+.PHONY: clean fclean all re makelibft bonus
